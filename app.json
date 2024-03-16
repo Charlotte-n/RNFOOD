@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "menu-app",
+    "slug": "menu-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "plugins": [
+      "expo-image-picker"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "662cd706-8fcc-4f7f-993a-e99f437b5fd7"
+      }
+    }
+  }
+}
