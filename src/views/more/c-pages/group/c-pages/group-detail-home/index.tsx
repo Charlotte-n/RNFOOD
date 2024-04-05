@@ -175,7 +175,7 @@ const GroupDetailHome: FC<IProps> = () => {
                             }}
                         >
                             打卡率
-                            {(groupDetail.rate as any) * 100}%
+                            {((groupDetail.rate as any) * 100).toFixed(1)}%
                         </AutoText>
                         <AutoText fontSize={4.5}>
                             成员数{groupDetail.curNum}

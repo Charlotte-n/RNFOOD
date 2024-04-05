@@ -40,11 +40,11 @@ const group: FC<IProps> = () => {
     return (
         <ScrollView className="" showsVerticalScrollIndicator={false}>
             {/*推荐小组*/}
-            <View className="relative w-[90%]">
+            <View className="relative">
                 <SearchGroup></SearchGroup>
             </View>
             {/*分类小组*/}
-            <View className="mb-[10] w-[90%]">
+            <View className="mb-[10]">
                 <CategoryGroup></CategoryGroup>
             </View>
         </ScrollView>

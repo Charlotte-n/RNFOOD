@@ -56,7 +56,7 @@ const CategoryGroup: FC<IProps> = () => {
     return (
         <>
             <View
-                className="ml-[45] mt-[230] mr-[20] w-[90%] bg-white  pl-[10] pt-[10] pr-[10] pb-[10]"
+                className="ml-[20] mt-[230] mr-[20] bg-white  pl-[10] pt-[10] pr-[10] pb-[10]"
                 style={{
                     borderRadius: 10,
                 }}

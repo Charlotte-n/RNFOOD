@@ -19,7 +19,7 @@ import {
 } from '../../store/slice/login-register-slice'
 import { ScrollView } from 'nativewind/dist/preflight'
 import MyImagePicker from '../../components/image-picker'
-import { getUserInfo, logoutApi } from '../../apis/mine'
+import { getUserInfo } from '../../apis/mine'
 interface IProps {
     children?: ReactNode
     navigation: any
@@ -28,10 +28,9 @@ import getImage from '../../utils/uploadImg'
 
 const Home: FC<IProps> = ({ navigation }) => {
     const dispatch = useAppDispatch()
-    const { userInfo, profile } = useAppSelector((state) => {
+    const { userInfo } = useAppSelector((state) => {
         return {
             userInfo: state.LoginRegisterSlice.userInfo,
-            profile: state.LoginRegisterSlice.profile,
         }
     }, shallowEqual)
     const { id } = userInfo
@@ -76,30 +75,6 @@ const Home: FC<IProps> = ({ navigation }) => {
                     })
                     navigation.navigate('LoginRegisterHomeScreen')
                     //清空用户信息
-                    dispatch(clearUserInfoAction())
-                },
-            },
-        ])
-    }
-    //注销用户
-    const logout = async () => {
-        Alert.alert('', '确定要注销用户吗', [
-            {
-                text: '取消',
-                onPress: () => '',
-                style: 'cancel',
-            },
-            {
-                text: '确定',
-                onPress: async () => {
-                    //清空用户信息
-                    //清空数据栈跳转到登录页面
-                    await logoutApi(userInfo.id)
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'LoginRegisterHomeScreen' }],
-                    })
-                    navigation.navigate('LoginRegisterHomeScreen')
                     dispatch(clearUserInfoAction())
                 },
             },
@@ -177,23 +152,6 @@ const Home: FC<IProps> = ({ navigation }) => {
                     )}
                     keyExtractor={(item) => item.id}
                 />
-                <TouchableOpacity
-                    onPress={() => logout()}
-                    className="flex-row items-center pt-[20] pb-[20] border-b border-[#F1F3F4]"
-                >
-                    <Text
-                        className="flex-1 "
-                        style={{ fontSize: 15, fontWeight: '300' }}
-                    >
-                        注销账号
-                    </Text>
-                    <Icon
-                        name={'right'}
-                        type={'antdesign'}
-                        size={14}
-                        color={'#888888'}
-                    ></Icon>
-                </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => checkout()}
                     className="flex-row items-center pt-[20] pb-[20] border-b border-[#F1F3F4]"

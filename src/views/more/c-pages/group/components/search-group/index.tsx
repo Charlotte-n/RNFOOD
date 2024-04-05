@@ -80,7 +80,7 @@ const SearchGroup: FC<IProps> = () => {
             </View>
             {/*推荐小组*/}
             <View
-                className="absolute bottom-[-200] left-[25] ml-[20] mr-[20] w-[90%] bg-white"
+                className="absolute bottom-[-200] ml-[20] mr-[20] bg-white"
                 style={{
                     borderRadius: 10,
                     paddingHorizontal: 15,
@@ -135,7 +135,7 @@ const SearchGroup: FC<IProps> = () => {
                     ></Button>
                 </View>
                 <ScrollView
-                    className="pt-[20] pl-[20] pr-[20] h-[250]"
+                    className="pt-[20] pr-[20] h-[250]"
                     showsVerticalScrollIndicator={false}
                 >
                     {searchGroupInfo?.length
