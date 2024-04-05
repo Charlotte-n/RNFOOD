@@ -1,5 +1,41 @@
 import { Dimensions, Image } from 'react-native'
 
+export const searchFoodCategory = [
+    {
+        name: '口水鸡',
+    },
+    {
+        name: '酸辣鱼',
+    },
+    {
+        name: '水煮肉片',
+    },
+    {
+        name: '豆腐脑',
+    },
+    {
+        name: '鸡胸肉',
+    },
+    {
+        name: '沙丁鱼',
+    },
+    {
+        name: '炸鸡',
+    },
+    {
+        name: '蔬菜沙拉',
+    },
+    {
+        name: '豆沙包',
+    },
+    {
+        name: '糖豆包',
+    },
+    {
+        name: '意大利面',
+    },
+]
+
 export const FoodNutritionData = ['carbohydrate', 'cellulose', 'fat', 'protein']
 export const FoodNutrition = {
     carbohydrate: '碳水化合物',
@@ -14,8 +50,8 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/zhushi.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
@@ -27,8 +63,8 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/meat.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
@@ -40,8 +76,8 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/nai.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
@@ -53,8 +89,8 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/mihoutao.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
@@ -66,8 +102,8 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/jianguo.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
@@ -79,8 +115,8 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/juice.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
@@ -92,8 +128,8 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/you.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
@@ -105,12 +141,50 @@ export const FoodCategory = [
             <Image
                 source={require('../../assets/icon/tiaowei.png')}
                 style={{
-                    width: Dimensions.get('screen').width / 5 - 40,
-                    height: 30,
+                    width: Dimensions.get('screen').width / 5 - 70,
+                    height: 40,
                 }}
             />
         ),
         name: '调味品',
+    },
+]
+
+export const ingredients = [
+    {
+        id: '0',
+        name: '鸡腿',
+        number: '3只',
+    },
+    {
+        id: '1',
+        name: '小米椒',
+        number: '2个',
+    },
+    {
+        id: '2',
+        name: '青椒',
+        number: '1个',
+    },
+    {
+        id: '3',
+        name: '蒜末',
+        number: '适量',
+    },
+    {
+        id: '4',
+        name: '白芝麻',
+        number: '1勺',
+    },
+    {
+        id: '5',
+        name: '辣椒粉',
+        number: '1勺',
+    },
+    {
+        id: '6',
+        name: '金针菇',
+        number: '1把',
     },
 ]
 

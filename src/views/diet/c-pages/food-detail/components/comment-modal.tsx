@@ -60,11 +60,13 @@ const CommentModal: FC<IProps> = ({ children, foodId }) => {
             }
             await PostCommentsApi(data)
             await getComment()
-        } catch (e) {}
+        } catch (e) {
+            console.log(e)
+        }
     }
     const getComment = async () => {
         //获取评论列表
-        const res = await getCommentsApi(foodId)
+        const res = await getCommentsApi(foodId, userInfo.id)
         dispatch(changeCommentAction(res.data))
     }
 

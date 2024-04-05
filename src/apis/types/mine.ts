@@ -6,6 +6,7 @@ export interface LoginData {
 
 export interface User {
     id: number
+    exercise: number
     username: string
     password: string
     email: string
@@ -17,7 +18,6 @@ export interface User {
     sex: number
     birth: number[]
     target: number
-    exercise: number
 }
 
 //endregion

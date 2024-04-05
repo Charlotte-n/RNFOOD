@@ -58,6 +58,7 @@ const FoodDetail: FC<IProps> = () => {
         await RecipeListApi({
             id: (route.params as { id: number }).id,
         }).then((res) => {
+            console.log(res)
             //数据的处理
             let materials = (res.data.dishes[0].materials as string)
                 .trim()
@@ -106,9 +107,11 @@ const FoodDetail: FC<IProps> = () => {
     //#获取评论
     const getComments = () => {
         //食物id
-        getCommentsApi((route.params as { id: number }).id).then((res) => {
-            dispatch(changeCommentAction(res.data))
-        })
+        getCommentsApi((route.params as { id: number }).id, userInfo.id).then(
+            (res) => {
+                dispatch(changeCommentAction(res.data))
+            },
+        )
     }
     useEffect(() => {
         getComments()
@@ -259,7 +262,7 @@ const FoodDetail: FC<IProps> = () => {
                                                 <Text
                                                     style={{
                                                         fontSize: 14,
-                                                        width: 200,
+                                                        flex: 1,
                                                     }}
                                                 >
                                                     {item?.trim()}

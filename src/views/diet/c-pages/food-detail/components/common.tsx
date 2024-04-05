@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../store'
 import { shallowEqual } from 'react-redux'
 import theme from '../../../../../styles/theme/color'
 import { useNavigation } from '@react-navigation/native'
-import { getCommentsApi } from '../../../../../apis/food'
+import { getCommentsApi, PostDoLikeApi } from '../../../../../apis/food'
 import {
     changeCommentAction,
     changeParentIdAction,
@@ -31,7 +31,7 @@ const common: FC<IProps> = ({ children, foodId }) => {
     const dispatch = useAppDispatch()
     //获取用户的评论
     const getComments = () => {
-        getCommentsApi(foodId).then((res) => {
+        getCommentsApi(foodId, userInfo.id).then((res) => {
             dispatch(changeCommentAction(res.data))
         })
     }
@@ -42,7 +42,13 @@ const common: FC<IProps> = ({ children, foodId }) => {
     //去往回复详情页面
     const GoCommentComply = (id: number) => {
         //@ts-ignore
-        navigation.navigate('commentsComply', { id })
+        navigation.navigate('commentsComply', { id, userid: userInfo.id })
+    }
+    //点赞的显示
+    const doLike = async (commentId: number) => {
+        const res = await PostDoLikeApi(userInfo.id, commentId)
+        //重新获取评论
+        getComments()
     }
     return (
         <View>
@@ -101,7 +107,6 @@ const common: FC<IProps> = ({ children, foodId }) => {
                 </TouchableOpacity>
             </View>
             {/*    用户的评论*/}
-
             {comments?.length
                 ? comments.map((item) => (
                       <View
@@ -130,7 +135,7 @@ const common: FC<IProps> = ({ children, foodId }) => {
                               ></Image>
                           )}
 
-                          <View className="ml-[10]">
+                          <View className="ml-[10] flex-1">
                               {/*自己的展示*/}
                               <View className="w-[200]">
                                   <AutoText
@@ -158,20 +163,32 @@ const common: FC<IProps> = ({ children, foodId }) => {
                                   </TouchableOpacity>
                               </View>
                               {/*    回复的展示*/}
-
                               {item.children.length ? (
                                   <View className="mt-[10] flex-row">
-                                      <Image
-                                          source={{
-                                              uri: item.children[0].avatar,
-                                          }}
-                                          style={{
-                                              width: 25,
-                                              height: 25,
-                                              borderRadius: 100,
-                                          }}
-                                      ></Image>
-                                      <View className="relative top-1 ml-[5]">
+                                      {item.children[0].avatar ? (
+                                          <Image
+                                              source={{
+                                                  uri: item.children[0].avatar,
+                                              }}
+                                              style={{
+                                                  width: 25,
+                                                  height: 25,
+                                                  borderRadius: 100,
+                                              }}
+                                          ></Image>
+                                      ) : (
+                                          <Image
+                                              source={require('../../../../../../assets/images/bg_login_header.png')}
+                                              style={{
+                                                  width: 25,
+                                                  height: 25,
+                                                  borderRadius: 100,
+                                              }}
+                                              resizeMode={'cover'}
+                                          ></Image>
+                                      )}
+
+                                      <View className="relative top-1 ml-[5] flex-1">
                                           <AutoText
                                               numberOfLines={1}
                                               fontSize={4.3}
@@ -205,9 +222,105 @@ const common: FC<IProps> = ({ children, foodId }) => {
                                               </TouchableOpacity>
                                           ) : null}
                                       </View>
+                                      <TouchableOpacity
+                                          onPress={() =>
+                                              doLike(item.children[0].id)
+                                          }
+                                      >
+                                          {item.children[0]?.isLike ? (
+                                              <View className="flex-row items-center justify-center">
+                                                  <Image
+                                                      style={{
+                                                          width: 15,
+                                                          height: 15,
+                                                          marginTop: 28,
+                                                          marginRight: 5,
+                                                      }}
+                                                      source={require('../../../../../../assets/icon/zan2.png')}
+                                                  ></Image>
+                                                  <AutoText
+                                                      fontSize={3.5}
+                                                      style={{
+                                                          marginTop: 28,
+                                                      }}
+                                                  >
+                                                      {item.children[0].likeNum
+                                                          ? item.children[0]
+                                                                .likeNum
+                                                          : 0}
+                                                  </AutoText>
+                                              </View>
+                                          ) : (
+                                              <View className="flex-row items-center justify-center">
+                                                  <Image
+                                                      style={{
+                                                          width: 15,
+                                                          height: 15,
+                                                          marginTop: 28,
+                                                          marginRight: 5,
+                                                      }}
+                                                      source={require('../../../../../../assets/icon/zan1.png')}
+                                                  ></Image>
+                                                  <AutoText
+                                                      fontSize={3.5}
+                                                      style={{
+                                                          marginTop: 28,
+                                                      }}
+                                                  >
+                                                      {item.children[0].likeNum
+                                                          ? item.children[0]
+                                                                .likeNum
+                                                          : 0}
+                                                  </AutoText>
+                                              </View>
+                                          )}
+                                      </TouchableOpacity>
                                   </View>
                               ) : null}
                           </View>
+                          <TouchableOpacity onPress={() => doLike(item.id)}>
+                              {item.isLike ? (
+                                  <View className="flex-row items-center">
+                                      <Image
+                                          style={{
+                                              width: 20,
+                                              height: 20,
+                                              marginTop: 25,
+                                              marginRight: 5,
+                                          }}
+                                          source={require('../../../../../../assets/icon/zan2.png')}
+                                      ></Image>
+                                      <AutoText
+                                          fontSize={4}
+                                          style={{
+                                              marginTop: 25,
+                                          }}
+                                      >
+                                          {item.likeNum ? item.likeNum : 0}
+                                      </AutoText>
+                                  </View>
+                              ) : (
+                                  <View className="flex-row items-center">
+                                      <Image
+                                          style={{
+                                              width: 20,
+                                              height: 20,
+                                              marginTop: 25,
+                                              marginRight: 5,
+                                          }}
+                                          source={require('../../../../../../assets/icon/zan1.png')}
+                                      ></Image>
+                                      <AutoText
+                                          fontSize={4}
+                                          style={{
+                                              marginTop: 25,
+                                          }}
+                                      >
+                                          {item.likeNum ? item.likeNum : 0}
+                                      </AutoText>
+                                  </View>
+                              )}
+                          </TouchableOpacity>
                       </View>
                   ))
                 : null}
