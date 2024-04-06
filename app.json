@@ -13,6 +13,17 @@
       "eas": {
         "projectId": "662cd706-8fcc-4f7f-993a-e99f437b5fd7"
       }
-    }
+    },
+    "runtimeVersion": "1.1",
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/662cd706-8fcc-4f7f-993a-e99f437b5fd7"
+    },
+    "android": {
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "ios": {}
   }
 }
