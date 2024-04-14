@@ -16,7 +16,6 @@ import { StackActions } from '@react-navigation/native'
 //@ts-ignore
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import SeePassWord from '../component/see-password'
-import AutoText from '../../../components/auto-text'
 interface IProps {
     children?: ReactNode
     navigation: any
@@ -74,11 +73,6 @@ const Login: FC<IProps> = ({ navigation }) => {
                 console.log('出现错误了', e)
             }
         }
-    }
-
-    //找回密码
-    const findPassword = () => {
-        navigation.navigate('FindPassword')
     }
 
     return (
@@ -177,16 +171,6 @@ const Login: FC<IProps> = ({ navigation }) => {
                         />
                     </View>
                     <View className="flex-row justify-between items-center pl-[10]">
-                        <TouchableOpacity onPress={() => findPassword()}>
-                            <AutoText
-                                style={{
-                                    color: theme.colors.deep01Primary,
-                                }}
-                            >
-                                忘记密码?
-                            </AutoText>
-                        </TouchableOpacity>
-
                         <Button
                             title={'登录'}
                             icon={

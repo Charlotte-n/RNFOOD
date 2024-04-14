@@ -33,7 +33,6 @@ const Ranking: FC<IProps> = () => {
         }
         showMemberRankingApi(params).then((res) => {
             setRanking(res.data)
-            console.log(res.data, res, '排行榜')
         })
     }
     useEffect(() => {
@@ -56,7 +55,7 @@ const Ranking: FC<IProps> = () => {
                         paddingVertical: 5,
                     }}
                 >
-                    共人
+                    共{ranking.length}人
                 </AutoText>
                 <View className="flex-1"></View>
                 <AutoText
@@ -129,11 +128,13 @@ const Ranking: FC<IProps> = () => {
                                     )}
 
                                     <AutoText fontSize={4}>
-                                        {item.name}
+                                        {item.username}
                                     </AutoText>
                                 </View>
                                 {/*TODO:打卡率*/}
-                                <AutoText fontSize={4}>{item.avatar}</AutoText>
+                                <AutoText fontSize={4}>
+                                    {(item.rate * 100).toFixed(1)}%
+                                </AutoText>
                             </View>
                         </View>
                     )

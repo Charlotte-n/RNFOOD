@@ -88,12 +88,15 @@ const MoreGroup: FC<IProps> = () => {
                                 title="加入"
                                 containerStyle={{
                                     borderRadius: 20,
-                                    width: 100,
+                                    width: 70,
+                                    height: 30,
                                     borderWidth: 1,
                                     borderColor: theme.colors.deep01Primary,
                                 }}
                                 titleStyle={{
                                     color: theme.colors.deep01Primary,
+                                    fontSize: 10,
+                                    lineHeight: 10,
                                 }}
                                 color={'white'}
                             ></Button>

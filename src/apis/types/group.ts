@@ -1,5 +1,3 @@
-import { getCategoryGroupsApi } from '../group'
-
 export interface createGroupParam {
     groupName: string
     groupSize: number | string
@@ -37,8 +35,9 @@ export interface SingleRankingMemberType {
     groupId: number
     id: number
     isOwner: number
-    name: string
+    username: string
     userId: number
+    rate: number
 }
 
 //获取小组分类的数据
@@ -81,13 +80,13 @@ export interface CategoryGroupsType {
 
 export interface ClockCalendarParams {
     groupId: number
-    newDateTime: string
+    newDateTime?: string
     userId: number
 }
 
 export interface ClockCalendarData {
     checkout: number
-    dateTime: string
+    datetime: string
 }
 
 export interface RankingMemberBody {
@@ -96,3 +95,18 @@ export interface RankingMemberBody {
     pageSize: number
     userId: number
 }
+
+//#region 打卡内容
+export type ClockContentType = SingleClockContentType[]
+export interface SingleClockContentType {
+    content: string
+    createTime: number[]
+    groupId: number
+    id: number
+    image: string | string[]
+    userId: number
+    avatar: string
+    username: string
+}
+
+//endregion

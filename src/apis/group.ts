@@ -3,8 +3,8 @@ import {
     CategoryGroupsType,
     ClockCalendarData,
     ClockCalendarParams,
+    ClockContentType,
     clockParam,
-    createGroupParam,
     GambitData,
     groupClassificationType,
     GroupInfoType,
@@ -27,6 +27,7 @@ enum BASEURL {
     USER_CLOCK = '/api/group/clock',
     GET_GROUPS_CATEGORY = '/api/group/allGroupCategory',
     CLOCK_CALENDAR = '/api/group/clockDate',
+    CLOCK_CONTENT = '/api/group/getclock',
 }
 
 /**
@@ -172,11 +173,22 @@ export const showMemberRankingApi = (body: RankingMemberBody) => {
  * @param images
  * @constructor
  */
+export const ClockContentApi = (query: clockParam) => {
+    const { content, groupId, userId } = query
+    return hyRequest.post({
+        url: BASEURL.USER_CLOCK,
+        params: {
+            content,
+            groupId,
+            userId,
+        },
+    })
+}
 export const ClockApi = (query: clockParam, images: any) => {
     const { content, groupId, userId } = query
     return hyRequest.post<CommonResponseType<any>>({
         url: BASEURL.USER_CLOCK,
-        data: images,
+        data: images ? images : null,
         params: {
             content,
             groupId,
@@ -220,7 +232,13 @@ export const ClockCalendarApi = (data: ClockCalendarParams) => {
 
 /**
  * 展示打卡内容
+ * @param groupId
  */
-export const getClockContentApi = ()=>{
-    return hyRequest.get({})
+export const getClockContentApi = (groupId: number) => {
+    return hyRequest.get<CommonResponseType<ClockContentType>>({
+        url: BASEURL.CLOCK_CONTENT,
+        params: {
+            groupId,
+        },
+    })
 }
