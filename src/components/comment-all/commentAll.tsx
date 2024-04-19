@@ -1,46 +1,78 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useEffect } from 'react'
 import type { FC, ReactNode } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
-import { FoodCommentListData } from '../../apis/types/food'
 import AutoText from '../auto-text'
 import theme from '../../styles/theme/color'
+import { useNavigation } from '@react-navigation/native'
+import { doLike } from '../../apis/communicate'
+import { useAppSelector } from '../../store'
+import { shallowEqual } from 'react-redux'
 
 interface IProps {
     children?: ReactNode
-    comments: FoodCommentListData
+    comments: any
     width: number
+    open: (value: number) => void
+    logId: number
+    getComment: any
 }
 
-const CommentAll: FC<IProps> = ({ comments, width }) => {
+const CommentAll: FC<IProps> = ({
+    comments,
+    width,
+    open,
+    logId,
+    getComment,
+}) => {
+    const navigation = useNavigation()
+    const { userInfo } = useAppSelector((state) => {
+        return {
+            userInfo: state.LoginRegisterSlice.userInfo,
+        }
+    }, shallowEqual)
+    const gotoUser = () => {
+        //@ts-ignore
+        navigation.navigate('userPage')
+    }
+    //点赞
+    const LikeDisLike = (logCommentId: number) => {
+        doLike(userInfo.id, logCommentId).then((res) => {
+            getComment()
+        })
+    }
     return (
-        <View>
+        <>
             {/*    用户的评论*/}
-            {comments?.length
-                ? comments.map((item) => (
+            {comments.length
+                ? comments.map((item: any) => (
                       <View
                           key={item.id}
                           className="flex-row pl-[5] pr-[5] mt-[20]"
                       >
                           {item.avatar ? (
-                              <Image
-                                  source={{ uri: item.avatar }}
-                                  style={{
-                                      width: 40,
-                                      height: 40,
-                                      borderRadius: 100,
-                                  }}
-                                  resizeMode={'cover'}
-                              ></Image>
+                              <TouchableOpacity onPress={() => gotoUser()}>
+                                  <Image
+                                      source={{ uri: item.avatar }}
+                                      style={{
+                                          width: 30,
+                                          height: 30,
+                                          borderRadius: 100,
+                                      }}
+                                      resizeMode={'cover'}
+                                  ></Image>
+                              </TouchableOpacity>
                           ) : (
-                              <Image
-                                  source={require('../../../assets/images/bg_login_header.png')}
-                                  style={{
-                                      width: 40,
-                                      height: 40,
-                                      borderRadius: 100,
-                                  }}
-                                  resizeMode={'cover'}
-                              ></Image>
+                              <TouchableOpacity onPress={() => gotoUser()}>
+                                  <Image
+                                      source={require('../../../assets/images/bg_login_header.png')}
+                                      style={{
+                                          width: 30,
+                                          height: 30,
+                                          borderRadius: 100,
+                                      }}
+                                      resizeMode={'cover'}
+                                  ></Image>
+                              </TouchableOpacity>
                           )}
 
                           <View className="ml-[10] flex-1">
@@ -56,19 +88,24 @@ const CommentAll: FC<IProps> = ({ comments, width }) => {
                                   >
                                       {item.username}
                                   </AutoText>
-                                  <TouchableOpacity onPress={() => {}}>
+                                  <TouchableOpacity
+                                      onPress={() => {
+                                          //显示
+                                          open(item.id as number)
+                                      }}
+                                  >
                                       <AutoText fontSize={4.8}>
                                           {item.content}
                                       </AutoText>
                                   </TouchableOpacity>
                               </View>
                               {/*    回复的展示*/}
-                              {item.children.length ? (
+                              {item.childern && item.childern?.length ? (
                                   <View className="mt-[10] flex-row">
-                                      {item.children[0].avatar ? (
+                                      {item.childern[0].avatar ? (
                                           <Image
                                               source={{
-                                                  uri: item.children[0].avatar,
+                                                  uri: item.childern[0].avatar,
                                               }}
                                               style={{
                                                   width: 25,
@@ -97,12 +134,12 @@ const CommentAll: FC<IProps> = ({ comments, width }) => {
                                                   marginBottom: 5,
                                               }}
                                           >
-                                              {item.children[0].username}
+                                              {item.childern[0].username}
                                           </AutoText>
                                           <AutoText fontSize={4.3}>
-                                              {item.children[0].content}
+                                              {item.childern[0].content}
                                           </AutoText>
-                                          {item.children.length > 1 ? (
+                                          {item.childern.length > 1 ? (
                                               <TouchableOpacity className="mt-[5]">
                                                   <AutoText
                                                       fontSize={4.3}
@@ -112,14 +149,22 @@ const CommentAll: FC<IProps> = ({ comments, width }) => {
                                                       }}
                                                   >
                                                       查看全部 (
-                                                      {item.children.length})
+                                                      {item.childern.length})
                                                   </AutoText>
                                               </TouchableOpacity>
                                           ) : null}
                                       </View>
+                                      {/*点赞*/}
                                       <TouchableOpacity>
-                                          {item.children[0]?.isLike ? (
-                                              <View className="flex-row items-center justify-center">
+                                          {item.childern[0]?.like ? (
+                                              <TouchableOpacity
+                                                  className="flex-row items-center justify-center"
+                                                  onPress={() => {
+                                                      LikeDisLike(
+                                                          item.childern[0].id,
+                                                      )
+                                                  }}
+                                              >
                                                   <Image
                                                       style={{
                                                           width: 15,
@@ -135,14 +180,21 @@ const CommentAll: FC<IProps> = ({ comments, width }) => {
                                                           marginTop: 28,
                                                       }}
                                                   >
-                                                      {item.children[0].likeNum
-                                                          ? item.children[0]
-                                                                .likeNum
+                                                      {item.childern[0].likes
+                                                          ? item.childern[0]
+                                                                .likes
                                                           : 0}
                                                   </AutoText>
-                                              </View>
+                                              </TouchableOpacity>
                                           ) : (
-                                              <View className="flex-row items-center justify-center">
+                                              <TouchableOpacity
+                                                  className="flex-row items-center justify-center"
+                                                  onPress={() => {
+                                                      LikeDisLike(
+                                                          item.childern[0].id,
+                                                      )
+                                                  }}
+                                              >
                                                   <Image
                                                       style={{
                                                           width: 15,
@@ -158,20 +210,25 @@ const CommentAll: FC<IProps> = ({ comments, width }) => {
                                                           marginTop: 28,
                                                       }}
                                                   >
-                                                      {item.children[0].likeNum
-                                                          ? item.children[0]
-                                                                .likeNum
+                                                      {item.childern[0].likes
+                                                          ? item.childern[0]
+                                                                .likes
                                                           : 0}
                                                   </AutoText>
-                                              </View>
+                                              </TouchableOpacity>
                                           )}
                                       </TouchableOpacity>
                                   </View>
                               ) : null}
                           </View>
                           <TouchableOpacity>
-                              {item.isLike ? (
-                                  <View className="flex-row items-center">
+                              {item.like ? (
+                                  <TouchableOpacity
+                                      className="flex-row items-center"
+                                      onPress={() => {
+                                          LikeDisLike(item.id)
+                                      }}
+                                  >
                                       <Image
                                           style={{
                                               width: 20,
@@ -187,11 +244,16 @@ const CommentAll: FC<IProps> = ({ comments, width }) => {
                                               marginTop: 25,
                                           }}
                                       >
-                                          {item.likeNum ? item.likeNum : 0}
+                                          {item.likes}
                                       </AutoText>
-                                  </View>
+                                  </TouchableOpacity>
                               ) : (
-                                  <View className="flex-row items-center">
+                                  <TouchableOpacity
+                                      className="flex-row items-center"
+                                      onPress={() => {
+                                          LikeDisLike(item.id)
+                                      }}
+                                  >
                                       <Image
                                           style={{
                                               width: 20,
@@ -207,15 +269,15 @@ const CommentAll: FC<IProps> = ({ comments, width }) => {
                                               marginTop: 25,
                                           }}
                                       >
-                                          {item.likeNum ? item.likeNum : 0}
+                                          {item.likes}
                                       </AutoText>
-                                  </View>
+                                  </TouchableOpacity>
                               )}
                           </TouchableOpacity>
                       </View>
                   ))
                 : null}
-        </View>
+        </>
     )
 }
 

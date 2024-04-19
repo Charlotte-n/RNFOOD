@@ -55,7 +55,6 @@ const Login: FC<IProps> = ({ navigation }) => {
             }
             try {
                 const res = await LoginApi(param)
-                console.log(res.data, res.code)
                 if (res.code === 1) {
                     dispatch(changeUserInfoAction(res.data.user))
                     dispatch(changeTokenAction(res.data.token))
@@ -170,7 +169,7 @@ const Login: FC<IProps> = ({ navigation }) => {
                             secureTextEntry={!isSee}
                         />
                     </View>
-                    <View className="flex-row justify-between items-center pl-[10]">
+                    <View className="flex-row justify-end items-center pl-[10]">
                         <Button
                             title={'登录'}
                             icon={

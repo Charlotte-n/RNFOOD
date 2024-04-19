@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { Alert, TouchableOpacity, View } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { useNavigation } from '@react-navigation/native'
 import { useAppSelector } from '../../store'
 import { shallowEqual } from 'react-redux'
 import { useCameraPermission } from 'react-native-vision-camera'
+import { Linking } from 'react-native'
 
 const MyImagePicker = ({
     children,
@@ -34,7 +35,22 @@ const MyImagePicker = ({
             const { status } =
                 await ImagePicker.requestMediaLibraryPermissionsAsync()
             if (status !== 'granted') {
-                alert('对不起，我们需要相册权限才能继续！')
+                // 提示用户前往系统设置界面手动启用权限
+                Alert.alert(
+                    '请求失败',
+                    '此功能需要使用摄像头和访问图片,否则不能实现',
+                    [
+                        {
+                            text: '取消',
+                            style: 'cancel',
+                        },
+                        {
+                            text: '跳转',
+                            onPress: () => Linking.openSettings(),
+                        },
+                    ],
+                )
+                navigation.goBack()
             }
         })()
     }, [])
