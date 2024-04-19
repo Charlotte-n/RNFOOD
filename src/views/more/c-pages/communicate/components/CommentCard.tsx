@@ -95,15 +95,28 @@ const CommentCard: FC<IProps> = ({ index, data, children }) => {
         >
             <View className="">
                 <View className="flex-row items-center">
-                    <Image
-                        style={{
-                            width: 30,
-                            height: 30,
-                            borderRadius: 100,
-                            marginRight: 10,
-                        }}
-                        source={{ uri: data.avatar }}
-                    ></Image>
+                    {data.avatar ? (
+                        <Image
+                            style={{
+                                width: 30,
+                                height: 30,
+                                borderRadius: 100,
+                                marginRight: 10,
+                            }}
+                            source={{ uri: data.avatar }}
+                        ></Image>
+                    ) : (
+                        <Image
+                            style={{
+                                width: 30,
+                                height: 30,
+                                borderRadius: 100,
+                                marginRight: 10,
+                            }}
+                            source={require('../../../../../../assets/images/bg_login_header.png')}
+                        ></Image>
+                    )}
+
                     <AutoText>{data.username}</AutoText>
                 </View>
             </View>
