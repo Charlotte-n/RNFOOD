@@ -17,6 +17,7 @@ import { createGroupParam } from '../../../../../../apis/types/group'
 import { useAppSelector } from '../../../../../../store'
 import { shallowEqual } from 'react-redux'
 import ImagePicker from '../../../../../../components/image-picker'
+import { ActivityIndicator } from 'nativewind/dist/preflight'
 
 interface IProps {
     children?: ReactNode
@@ -38,7 +39,16 @@ const CreateGroup: FC<IProps> = ({ navigation }) => {
         setGetImage(image)
     }
     //创建小组
+    const [loading, setLoading] = useState(false)
     const createGroup = async () => {
+        if (!size || !title || !label || !image) {
+            ToastAndroid.showWithGravity(
+                '创建失败,必须都进行填写',
+                ToastAndroid.SHORT,
+                ToastAndroid.TOP,
+            )
+            return
+        }
         //创建一个formdata
         const formData = new FormData()
         formData.append('groupSize', size)
@@ -52,9 +62,10 @@ const CreateGroup: FC<IProps> = ({ navigation }) => {
         } as any)
         formData.append('introduce', introduce)
         try {
+            setLoading(true)
             const res = await createGroupApi(formData)
-            console.log(res)
             if (res.code === 1) {
+                setLoading(false)
                 ToastAndroid.showWithGravityAndOffset(
                     '创建成功',
                     ToastAndroid.SHORT,
@@ -135,6 +146,16 @@ const CreateGroup: FC<IProps> = ({ navigation }) => {
                             paddingHorizontal: 5,
                         }}
                     ></TextInput>
+                    <ActivityIndicator
+                        color={theme.colors.deep01Primary}
+                        animating={loading}
+                        size={'large'}
+                        style={{
+                            position: 'absolute',
+                            top: 100,
+                            left: 150,
+                        }}
+                    ></ActivityIndicator>
                     <TextInput
                         value={introduce}
                         onChangeText={(text) => setIntroduce(text)}
@@ -193,6 +214,7 @@ const CreateGroup: FC<IProps> = ({ navigation }) => {
                         onPress={() => {
                             createGroup()
                         }}
+                        disabled={loading}
                         title="创建打卡小组"
                         containerStyle={{
                             borderRadius: 20,

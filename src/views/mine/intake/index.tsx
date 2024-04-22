@@ -129,11 +129,33 @@ const Intake: FC<IProps> = () => {
                         {((dailyIntake?.calories - total[4])?.toFixed(
                             0,
                         ) as unknown as number) >= 0 ? (
-                            <AutoText>
-                                今日还可摄入
-                                {(dailyIntake.calories - total[4])?.toFixed(0)}
-                                千卡
-                            </AutoText>
+                            <View className="flex-row ">
+                                <AutoText
+                                    style={{
+                                        marginRight: 10,
+                                    }}
+                                >
+                                    今日还可摄入
+                                    {(dailyIntake.calories - total[4])?.toFixed(
+                                        0,
+                                    )}
+                                    千卡
+                                </AutoText>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        //@ts-ignore
+                                        navigation.navigate('category')
+                                    }}
+                                >
+                                    <AutoText
+                                        style={{
+                                            color: theme.colors.deep01Primary,
+                                        }}
+                                    >
+                                        去添加&gt;
+                                    </AutoText>
+                                </TouchableOpacity>
+                            </View>
                         ) : !isNaN((dailyIntake?.calories - total[4]) * -1) ? (
                             <AutoText>
                                 今日摄入已经超过
