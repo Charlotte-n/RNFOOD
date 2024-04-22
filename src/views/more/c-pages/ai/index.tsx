@@ -43,7 +43,7 @@ const AI: FC<IProps> = () => {
     }, shallowEqual)
     //连接websocket
     const [ws, setWs] = useState(
-        () => new WebSocket('ws://123.57.175.4:80/api/ws/' + userInfo.id),
+        () => new WebSocket('ws://47.120.13.242/api/ws/' + userInfo.id),
     )
     useEffect(() => {
         ws.onopen = () => {

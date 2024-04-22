@@ -29,6 +29,7 @@ interface IProps {
     children?: any
     index: number
     data: CommunicateSingleContentData
+    activeId: number
 }
 
 enum LikeMap {
@@ -36,7 +37,7 @@ enum LikeMap {
     LIKE = 1,
     DISLIKE = 2,
 }
-const CommentCard: FC<IProps> = ({ index, data, children }) => {
+const CommentCard: FC<IProps> = ({ index, data, children, activeId }) => {
     const navigation = useNavigation()
     const { userInfo } = useAppSelector((state) => {
         return {
@@ -80,7 +81,7 @@ const CommentCard: FC<IProps> = ({ index, data, children }) => {
     useEffect(() => {
         logs()
         getComment(data.id)
-    }, [])
+    }, [data])
 
     return (
         <TouchableOpacity

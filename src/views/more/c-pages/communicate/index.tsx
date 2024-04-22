@@ -78,7 +78,7 @@ const Communicate: FC<IProps> = ({ navigation }) => {
             id: topicId === 0 ? 0 : null,
             pageNum: 1,
             topicId: topicId,
-            pageSize: 10,
+            pageSize: 1000,
         }
         getCommunicateContentApi(data, userInfo.id).then((res) => {
             const result = res.data.map((item) => {
@@ -289,7 +289,11 @@ const Communicate: FC<IProps> = ({ navigation }) => {
                 {communicate?.map((item, index) => {
                     return (
                         <View key={index} className="mb-[15]">
-                            <CommentCard index={index} data={item}>
+                            <CommentCard
+                                index={index}
+                                data={item}
+                                activeId={topicId}
+                            >
                                 {{
                                     getCommunicateContent:
                                         getCommunicateContent,

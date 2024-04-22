@@ -144,11 +144,31 @@ const Intake: FC<IProps> = () => {
                                 千卡
                             </AutoText>
                         ) : (
-                            <AutoText>
-                                今天还需要摄入
-                                {dailyIntake?.calories?.toFixed(0)}
-                                千卡
-                            </AutoText>
+                            <View className="flex-row">
+                                <AutoText
+                                    style={{
+                                        marginRight: 10,
+                                    }}
+                                >
+                                    今天还需要摄入
+                                    {dailyIntake?.calories?.toFixed(0)}
+                                    千卡
+                                </AutoText>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        //@ts-ignore
+                                        navigation.navigate('category')
+                                    }}
+                                >
+                                    <AutoText
+                                        style={{
+                                            color: theme.colors.deep01Primary,
+                                        }}
+                                    >
+                                        去添加&gt;
+                                    </AutoText>
+                                </TouchableOpacity>
+                            </View>
                         )}
                     </View>
                 </ScrollView>

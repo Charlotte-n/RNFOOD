@@ -6,6 +6,7 @@ import {
     ScrollView,
     StatusBar,
     TextInput,
+    ToastAndroid,
     View,
 } from 'react-native'
 import AutoText from '../../../../../../components/auto-text'
@@ -26,6 +27,7 @@ import { shallowEqual } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { changeCurrentTimeAction } from '../../../../../../store/slice/group'
 import moment from 'moment'
+import { ActivityIndicator } from 'nativewind/dist/preflight'
 
 interface IProps {
     children?: ReactNode
@@ -49,6 +51,7 @@ const Clock: FC<IProps> = () => {
         userId: userInfo.id,
         groupId: (route.params as { id: number }).id,
     })
+    const [loading, setLoading] = useState(false)
     //打卡上传
     const clock = async () => {
         const formData = new FormData()
@@ -62,7 +65,9 @@ const Clock: FC<IProps> = () => {
         let res: any
         //文字或者图片上传
         if (images.length) {
+            setLoading(true)
             res = await ClockApi(clockP, formData)
+            setLoading(false)
         } else {
             res = await ClockContentApi(clockP)
         }
@@ -79,6 +84,11 @@ const Clock: FC<IProps> = () => {
                 time: new Date().toString(),
             })
             await ClockCalendarApi(data)
+            ToastAndroid.showWithGravity(
+                '创建成功',
+                ToastAndroid.SHORT,
+                ToastAndroid.TOP,
+            )
         }
         dispatch(
             changeCurrentTimeAction(moment(new Date()).format('YYYY-MM-DD')),
@@ -168,27 +178,35 @@ const Clock: FC<IProps> = () => {
                         textAlignVertical="top"
                         multiline={true}
                         numberOfLines={5}
+                        editable={!loading}
                     ></TextInput>
+                    {/*    loading*/}
+                    <ActivityIndicator
+                        animating={loading}
+                        size={50}
+                        color={theme.colors.deep01Primary}
+                    ></ActivityIndicator>
                     <View>
-                        {images.length <= 6 ? (
-                            <View className="flex-row">
-                                {images.length
-                                    ? images.map((item, index) => {
-                                          return (
-                                              <Image
-                                                  key={index}
-                                                  source={{ uri: item }}
-                                                  style={{
-                                                      height: 50,
-                                                      width: 50,
-                                                      borderRadius: 10,
-                                                      marginRight: 10,
-                                                  }}
-                                              ></Image>
-                                          )
-                                      })
-                                    : null}
+                        <View className="flex-row flex-wrap">
+                            {images.length
+                                ? images.map((item, index) => {
+                                      return (
+                                          <Image
+                                              key={index}
+                                              source={{ uri: item }}
+                                              style={{
+                                                  height: 50,
+                                                  width: 50,
+                                                  borderRadius: 10,
+                                                  marginRight: 10,
+                                                  marginBottom: 19,
+                                              }}
+                                          ></Image>
+                                      )
+                                  })
+                                : null}
 
+                            {images.length <= 6 ? (
                                 <ImagePicker getImage={getImage}>
                                     {{
                                         content: (
@@ -211,8 +229,8 @@ const Clock: FC<IProps> = () => {
                                         ),
                                     }}
                                 </ImagePicker>
-                            </View>
-                        ) : null}
+                            ) : null}
+                        </View>
                     </View>
                 </View>
                 <View className="m-auto mt-[20]">
@@ -224,6 +242,7 @@ const Clock: FC<IProps> = () => {
                             width: Dimensions.get('window').width / 2,
                         }}
                         color={theme.colors.deep01Primary}
+                        disabled={loading}
                     ></Button>
                 </View>
                 {/*    规则*/}

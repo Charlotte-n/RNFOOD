@@ -30,6 +30,7 @@ import {
     changeIsInnerAction,
     changeThreeGroupAction,
 } from '../../../../../../store/slice/group'
+// import ImageViewer from 'react-native-image-zoom-viewer'
 
 interface IProps {
     children?: ReactNode
@@ -154,9 +155,6 @@ const GroupDetailHome: FC<IProps> = () => {
     const ShowBottom = () => {
         setShowBottom(true)
     }
-    useEffect(() => {
-        console.log(groupDetail)
-    }, [groupDetail])
     return (
         <>
             <View className="flex-1 bg-[#f6f7f7]">
@@ -469,30 +467,34 @@ const GroupDetailHome: FC<IProps> = () => {
                                                         >
                                                             {item.content}
                                                         </AutoText>
-                                                        {item.image
-                                                            ? (
-                                                                  item.image as string[]
-                                                              ).map(
-                                                                  (
-                                                                      item,
-                                                                      index,
-                                                                  ) => (
-                                                                      <Image
-                                                                          key={
-                                                                              index
-                                                                          }
-                                                                          source={{
-                                                                              uri: item,
-                                                                          }}
-                                                                          style={{
-                                                                              width: 100,
-                                                                              height: 100,
-                                                                              borderRadius: 10,
-                                                                          }}
-                                                                      ></Image>
-                                                                  ),
-                                                              )
-                                                            : null}
+                                                        <View className="flex flex-row flex-wrap">
+                                                            {item.image
+                                                                ? (
+                                                                      item.image as string[]
+                                                                  ).map(
+                                                                      (
+                                                                          item,
+                                                                          index,
+                                                                      ) => (
+                                                                          <Image
+                                                                              key={
+                                                                                  index
+                                                                              }
+                                                                              source={{
+                                                                                  uri: item,
+                                                                              }}
+                                                                              style={{
+                                                                                  height: 100,
+                                                                                  width: 90,
+                                                                                  borderRadius: 20,
+                                                                                  marginRight: 20,
+                                                                                  marginBottom: 10,
+                                                                              }}
+                                                                          ></Image>
+                                                                      ),
+                                                                  )
+                                                                : null}
+                                                        </View>
                                                     </View>
                                                 </View>
                                             </View>
